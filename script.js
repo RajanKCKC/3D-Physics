@@ -38,9 +38,43 @@ const FIXED_TIME_STEP = 1 / 60;
 const MAX_SUB_STEPS = 3;
 const physicsObjects = [];
 
-// Create ground plane (visual + physical)
+// Lighting setup
+function setupLighting() {
+    // Hemisphere light for ambient fill
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xe8e8e8, 0.6);
+    scene.add(hemiLight);
+
+    // Main directional light (sun)
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(10, 20, 10);
+    dirLight.castShadow = true;
+    dirLight.shadow.camera.left = -12;
+    dirLight.shadow.camera.right = 12;
+    dirLight.shadow.camera.top = 12;
+    dirLight.shadow.camera.bottom = -12;
+    dirLight.shadow.camera.near = 1;
+    dirLight.shadow.camera.far = 50;
+    dirLight.shadow.bias = -0.0005;
+    dirLight.shadow.normalBias = 0.02;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    scene.add(dirLight);
+
+    // Fill lights
+    const fillLight1 = new THREE.DirectionalLight(0xffffff, 0.3);
+    fillLight1.position.set(-10, 10, -10);
+    scene.add(fillLight1);
+
+    const fillLight2 = new THREE.DirectionalLight(0xf0f0f0, 0.2);
+    fillLight2.position.set(0, -5, 0);
+    scene.add(fillLight2);
+
+    return { hemiLight, dirLight, fillLight1, fillLight2 };
+}
+const lights = setupLighting();
+
+// Create ground plane
 function createGround() {
-    // Visual ground
     const groundGeometry = new THREE.PlaneGeometry(20, 20, 40, 40);
     const positions = groundGeometry.attributes.position;
     for (let i = 0; i < positions.count; i++) {
@@ -63,7 +97,6 @@ function createGround() {
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
 
-    // Physics ground (static body)
     const groundShape = new CANNON.Box(new CANNON.Vec3(10, 0.1, 10));
     const groundBody = new CANNON.Body({
         mass: 0,
@@ -121,3 +154,4 @@ window.addEventListener('resize', () => {
 
 window.physicsWorld = physicsWorld;
 window.physicsObjects = physicsObjects;
+window.lights = lights;
