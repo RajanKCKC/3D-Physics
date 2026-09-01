@@ -64,7 +64,7 @@
                     <select id="shapeSelect">
                         <option value="random">Random (Box/Sphere)</option>
                         <option value="box">Box</option>
-                        <option value="sphere">Sphere</option>
+                        <option value="sphere">Sphere</option
                     </select>
                 </div>
             </div>
@@ -83,7 +83,9 @@
                 <div class="section-title">Live Stats</div>
                 <div style="font-family: 'Monaco', 'Menlo', monospace; font-size: 12px; color: #666;" id="liveStats">
                     Dynamic bodies: 0<br>
-                    Static bodies: 1
+                    Static bodies: 1<br>
+                    Contacts: 0<br>
+                    Time scale: 1.0x
                 </div>
             </div>
         </div>
@@ -92,7 +94,7 @@
         <h3>3D Physics Simulator</h3>
     </div>
     <div class="stats" id="stats">FPS: --<br>Bodies: 0</div>
-    <div class="spawn-hint">Click on ground to spawn</div>
+    <div class="spawn-hint">Click to spawn • Space=spawn • R=reset • C=clear • P=pause</div>
     <script type="importmap">
     {
         "imports": {
